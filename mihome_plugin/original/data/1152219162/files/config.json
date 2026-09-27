@@ -1,0 +1,276 @@
+{
+    "voicePackage": [
+        {
+            "id": 2,
+            "name": "en.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/en.tar.gz",
+       "version": "2",
+            "md5": "b29036e0bf84045581cba6406b7441d2"
+        },
+        {
+            "id": 3,
+            "name": "ru.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/ru.tar.gz",
+            "version": "2",
+            "md5": "1c9bce3b424dbb982b06036180db0d6a"
+        },
+        {
+            "id": 4,
+            "name": "de.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/de.tar.gz",
+            "version": "2",
+            "md5": "9a5c576b163db43aac0961e630f284bf"
+        },
+        {
+            "id": 5,
+            "name": "it.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/it.tar.gz",
+            "version": "2",
+            "md5": "4ca235130cac6d933bf286f602702ff3"
+        },
+        {
+            "id": 6,
+            "name": "fr.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/fr.tar.gz",
+            "version": "2",
+            "md5": "76650eb08655d4019c1e3a37f9d2d723"
+        },
+        {
+            "id": 7,
+            "name": "pl.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/pl.tar.gz",
+            "version": "2",
+            "md5": "f881099f29ee73f466871fb895157238"
+        },
+        {
+            "id": 8,
+            "name": "es.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/es.tar.gz",
+            "version": "2",
+            "md5": "740f2787a5a683aae0690177f4ab394a"
+        },
+        {
+            "id": 9,
+            "name": "kr.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/kr.tar.gz",
+            "version": "2",
+            "md5": "55a7c522152fd7c7d6e6eb161c7caddc"
+        },
+        {
+            "id": 10,
+            "name": "tw.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/tw.tar.gz",
+            "version": "2",
+            "md5": "af9e474c2daff03d334af6d7d361de00"
+        },
+        {
+            "id": 11,
+            "name": "vt.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/vt.tar.gz",
+            "version": "3",
+            "md5": "ae5788aca08a6a25198a3a95e5ab9edd"
+        },
+        {
+            "id": 1,
+            "name": "zh.tar.gz",
+            "type": "gz",
+            "url": "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/voicePackage/zh.tar.gz",
+            "version": "2",
+            "md5": "3c49a6572b577b87be5af6cc187cf4f6"
+        }
+    ],
+    "faultImages": [
+        {
+            "code": 4007,
+            "name": "LDS被遮挡",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/LDSBeingObstructed.png"
+            ]
+        },
+        {
+            "code": 4006,
+            "name": "下视积灰",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/DownwardGrayAccumulation.png"
+            ]
+        },
+        {
+            "code": 4001,
+            "name": "尘盒未安装",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/DustBoxNotInstalled.png"
+            ]
+        },
+        {
+            "code": 4501,
+            "name": "尘袋未安装",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/DustBagNotInstalled.png"
+            ]
+        },
+        {
+            "code": 4506,
+            "name": "拖布清洗槽水满（或未安装）-安装普通水箱时",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/TheMopCleaningTankIsFullOfWater.png"
+            ]
+        },
+        {
+            "code": 4507,
+            "name": "拖布清洗槽水满（或未安装）-安装上下水模块时",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/TheMopCleaningTankIsFullOfWater.png"
+            ]
+        },
+        {
+            "code": 4021,
+            "name": "拖布盘未安装",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/TheMopTrayIsNotInstalled.png"
+            ]
+        },
+        {
+            "code": 4020,
+            "name": "拖布盘被缠绕",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/TheMopTrayIsEntangled.png"
+            ]
+        },
+        {
+            "code": 4013,
+            "name": "撞板被卡住",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/TheCollisionBoardIsStuck.png"
+            ]
+        },
+        {
+            "code": 4018,
+            "name": "无法在地毯内启动",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/UnableToStartLnsideTheCarpet.png"
+            ]
+        },
+        {
+            "code": 4002,
+            "name": "未安装水箱",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/NoWaterTankInstalled.png"
+            ]
+        },
+        {
+            "code": 4017,
+            "name": "无法在禁区内启动",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/UnableToStartWithinTheRestrictedArea.png"
+            ]
+        },
+        {
+            "code": 4016,
+            "name": "机器人倾斜",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/RobotTilt.png"
+            ]
+        },
+        {
+            "code": 4014,
+            "name": "机器人悬空",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/RobotsSuspendedInTheAir.png"
+            ]
+        },
+        {
+            "code": 4012,
+            "name": "机器人被困住",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/RobotTrapped.png"
+            ]
+        },
+        {
+            "code": 4503,
+            "name": "污水已满（或未安装清水箱）",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/FullOfSewage.png"
+            ]
+        },
+        {
+            "code": 4502,
+            "name": "清水不足",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/InsufficientWater.png"
+            ]
+        },
+        {
+            "code": 4003,
+            "name": "滚刷被缠绕",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/TheRollingBrushIsEntangled.png"
+            ]
+        },
+        {
+            "code": 4004,
+            "name": "边刷被缠绕",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/EdgeBrushEntangled.png"
+            ]
+        },
+        {
+            "code": 4011,
+            "name": "雷达罩被卡住",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/RadarHoodStuck.png"
+            ]
+        },
+        {
+            "code": 4009,
+            "name": "驱动轮打滑",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/DriveWheelSlipping.png"
+            ]
+        },
+        {
+            "code": 4005,
+            "name": "驱动轮被卡住",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/DriveWheelStuck.png"
+            ]
+        },
+        {
+            "code": 4008,
+            "name": "LSD被卡住",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/LdsStuck.png"
+            ]
+        },
+        {
+            "code": 4901,
+            "name": "无法上水",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/UnableTo4901.png"
+            ]
+        },
+        {
+            "code": 4903,
+            "name": "无法下水",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/UnableDrainW4903ater.png"
+            ]
+        },
+        {
+            "code": 4902,
+            "name": "清洁液不足",
+            "imgUrl": [
+                "https://xtl-data-sg.ks3-sgp.ksyuncs.com/p20/images/faultImages/InsufficientCleaningSolution4902.png"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+G_svg,
+    YANG_TAI_svg: YANG_TAI_svg,
+    ZOU_LANG_svg: ZOU_LANG_svg,
+    XI_YI_FANG_svg: XI_YI_FANG_svg,
+    XIU_XI_SHI_svg: XIU_XI_SHI_svg,
+    Robot_svg: Robot_svg,
+    SELECTED_ROOM_svg: SELECTED_ROOM_svg,
+    UNSELECTED_ROOM_svg: UNSELECTED_ROOM_svg,
+    SELECTED_Merge_svg: SELECTED_Merge_svg,
+    Robot_img: _$$_REQUIRE(_dependencyMap[3]),
+    Seque_img: _$$_REQUIRE(_dependencyMap[4]),
+    SegmentSave_img: _$$_REQUIRE(_dependencyMap[5]),
+    Mop

@@ -1,0 +1,440 @@
+/dts-v1/;
+
+/ {
+	#address-cells = <0x01>;
+	#size-cells = <0x01>;
+	interrupt-parent = <0x01>;
+	model = "arobot-r8";
+	compatible = "arobot,r8";
+
+	arobot {
+		soc-pins = <0x80>;
+		cpu-freq = <0x2d0fa500>;
+		ddr-freq = <0x1ad27480>;
+		bigpll-clk = <0x2dc6c000>;
+		flags = <0x08>;
+		u-boot,dm-pre-reloc;
+		boot-media = <0x01>;
+	};
+
+	memory {
+		reg = <0x10000000 0x8000000>;
+		device_type = "memory";
+	};
+
+	cpus {
+		enable-method = "arobot,r8-smp";
+		#address-cells = <0x01>;
+		#size-cells = <0x00>;
+
+		cpu@0 {
+			compatible = "arm,cortex-a7";
+			device_type = "cpu";
+			reg = <0x00>;
+			phandle = <0x02>;
+		};
+
+		cpu@1 {
+			compatible = "arm,cortex-a7";
+			device_type = "cpu";
+			reg = <0x01>;
+			phandle = <0x03>;
+		};
+
+		cpu@2 {
+			compatible = "arm,cortex-a7";
+			device_type = "cpu";
+			reg = <0x02>;
+			phandle = <0x04>;
+		};
+	};
+
+	pmu {
+		compatible = "arm,cortex-a7-pmu";
+		interrupts = <0x00 0x78 0x04 0x00 0x79 0x04 0x00 0x7a 0x04>;
+		interrupt-affinity = <0x02 0x03 0x04>;
+	};
+
+	timer {
+		compatible = "arm,armv7-timer";
+		interrupts = <0x01 0x0d 0xf08 0x01 0x0e 0xf08 0x01 0x0b 0xf08 0x01 0x0a 0xf08>;
+		clock-frequency = <0x2dc6c00>;
+	};
+
+	clocks {
+		#address-cells = <0x01>;
+		#size-cells = <0x01>;
+		ranges;
+
+		osc12M_clk {
+			#clock-cells = <0x00>;
+			compatible = "fixed-clock";
+			clock-frequency = <0xb71b00>;
+			clock-output-names = "osc12M";
+			phandle = <0x06>;
+		};
+
+		osc32k_clk {
+			#clock-cells = <0x00>;
+			compatible = "fixed-clock";
+			clock-frequency = <0x8000>;
+			clock-output-names = "osc32k";
+			phandle = <0x07>;
+		};
+	};
+
+	soc {
+		u-boot,dm-pre-reloc;
+		compatible = "simple-bus";
+		#address-cells = <0x01>;
+		#size-cells = <0x01>;
+		ranges;
+
+		cpuentry@0 {
+			compatible = "arobot,cpuentry";
+			reg = <0x00 0x40>;
+		};
+
+		cpucfg@4005e000 {
+			compatible = "arobot,cpuconfig";
+			reg = <0x4005e000 0x80>;
+		};
+
+		ddr@40052000 {
+			u-boot,dm-pre-reloc;
+			compatible = "arobot,r8-ddr";
+			reg = <0x40052000 0x100>;
+			clocks = <0x05 0x02 0x05 0x1a>;
+			clock-names = "pll_ddr\0ap_ddr";
+			status = "okay";
+		};
+
+		clock@40080000 {
+			u-boot,dm-pre-reloc;
+			compatible = "arobot,r8-ckcu";
+			reg = <0x40080000 0x2000>;
+			clocks = <0x06 0x07>;
+			clock-names = "osc12M\0osc32k";
+			#clock-cells = <0x01>;
+			phandle = <0x05>;
+		};
+
+		rstcu@40080100 {
+			compatible = "arobot,r8-reset";
+			#reset-cells = <0x01>;
+			reg = <0x40080100 0x114>;
+			status = "okay";
+			phandle = <0x08>;
+		};
+
+		pinctrl@40034000 {
+			compatible = "arobot,r8-pinctrl";
+			reg = <0x40034000 0x4000 0x40070000 0x7000 0x40036000 0x1000>;
+			clocks = <0x05 0x69 0x05 0x68 0x05 0x67 0x05 0x66 0x05 0x65 0x05 0x64 0x05 0x63 0x05 0x62 0x05 0x61 0x05 0x60>;
+			clock-names = "afio\0exti\0gpioa\0gpiob\0gpioc\0gpiod\0gpioe\0gpiof\0gpiog\0gpioh";
+			gpio-controller;
+			#gpio-cells = <0x03>;
+
+			spi0_pins {
+				pins = "PE1\0PE2\0PE3\0PE4\0PE5\0PE6";
+				function = "spi0";
+				arobot,drive = <0x02>;
+				arobot,pull = <0x01>;
+				phandle = <0x0b>;
+			};
+
+			uart1_pins {
+				pins = "PG10\0PG11";
+				function = "uart1";
+				arobot,drive = <0x00>;
+				phandle = <0x09>;
+			};
+		};
+
+		dma0@4005a000 {
+			u-boot,dm-spl;
+			compatible = "arobot,r8-dma";
+			reg = <0x4005a000 0x2000>;
+			clocks = <0x05 0x18>;
+			clock-names = "ap_dma0";
+			resets = <0x08 0x49>;
+			#dma-cells = <0x02>;
+			dma-pchannels = <0x08>;
+			dma-vchannels = <0x0f>;
+			dma-requests = <0x0f>;
+			status = "okay";
+			phandle = <0x0a>;
+		};
+
+		dma1@40068000 {
+			u-boot,dm-spl;
+			compatible = "arobot,r8-dma";
+			reg = <0x40068000 0x2000>;
+			clocks = <0x05 0x17>;
+			clock-names = "ap_dma1";
+			resets = <0x08 0x4a>;
+			#dma-cells = <0x02>;
+			dma-pchannels = <0x08>;
+			dma-vchannels = <0x0c>;
+			dma-requests = <0x0c>;
+			status = "okay";
+			phandle = <0x0c>;
+		};
+
+		wdt0@4003a000 {
+			compatible = "arobot,r8-wdt";
+			reg = <0x4003a000 0x20>;
+			interrupts = <0x00 0x03 0x04>;
+			clocks = <0x05 0x2a>;
+			clock-names = "ap_wdt0";
+			status = "disabled";
+		};
+
+		rtc@4003c000 {
+			compatible = "arobot,r8-rtc";
+			reg = <0x4003c000 0x118>;
+			interrupts = <0x00 0x04 0x04>;
+			clocks = <0x05 0x5f>;
+			clock-names = "rtc";
+			status = "disabled";
+		};
+
+		timer@40038000 {
+			compatible = "arobot,r8-timer";
+			reg = <0x4004c000 0x10>;
+			interrupts = <0x00 0x11 0x04>;
+			clocks = <0x05 0x38>;
+			clock-names = "ap_bftm4";
+			status = "disabled";
+		};
+
+		efuse@40048000 {
+			#address-cells = <0x01>;
+			#size-cells = <0x01>;
+			compatible = "arobot,efuse";
+			reg = <0x40048000 0x80 0x4003c300 0x04>;
+			clocks = <0x05 0x34 0x05 0x35>;
+			clock-names = "ap_chipid0\0ap_chipid";
+		};
+
+		mmc0@400a0000 {
+			compatible = "arobot,r8-mmc";
+			reg = <0x400a0000 0x100>;
+			clocks = <0x06 0x05 0x06 0x05 0x13>;
+			clock-names = "osc12M\0pll_big\0ap_sdio0";
+			resets = <0x08 0x4e>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		mmc1@400a6000 {
+			compatible = "arobot,r8-mmc";
+			reg = <0x400a6000 0x100>;
+			clocks = <0x06 0x05 0x06 0x05 0x12>;
+			clock-names = "osc12M\0pll_big\0ap_sdio1";
+			resets = <0x08 0x4f>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		usbd@400a4000 {
+			compatible = "arobot,r7-udc";
+			reg = "@\n@\0\0\0 ";
+			clocks = <0x05 0x03 0x05 0x0d>;
+			clock-names = "pll_usb\0ap_usb";
+			resets = <0x08 0x53>;
+			status = "disabled";
+			#address-cells = <0x01>;
+			#size-cells = <0x01>;
+		};
+
+		uart0@40000000 {
+			compatible = "arobot,r8-uart";
+			reg = <0x40000000 0x2000>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x05 0x3f>;
+			clock-names = "rp_uart0";
+			status = "disabled";
+		};
+
+		uart1@40002000 {
+			compatible = "arobot,r8-uart";
+			reg = <0x40002000 0x2000>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x05 0x2c>;
+			clock-names = "ap_uart1";
+			resets = <0x08 0x6c>;
+			status = "okay";
+			u-boot,dm-pre-reloc;
+			pinctrl-names = "default";
+			pinctrl-0 = <0x09>;
+		};
+
+		uart2@40004000 {
+			compatible = "arobot,r8-uart";
+			reg = <0x40004000 0x2000>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x05 0x3e>;
+			clock-names = "rp_uart2";
+			status = "disabled";
+		};
+
+		uart3@40006000 {
+			compatible = "arobot,r8-uart";
+			reg = <0x40006000 0x2000>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x05 0x3d>;
+			clock-names = "rp_uart3";
+			status = "disabled";
+		};
+
+		usart0@40014000 {
+			compatible = "arobot,r8-usart";
+			reg = <0x40014000 0x2000>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x05 0x3c>;
+			clock-names = "rp_usart0";
+			status = "disabled";
+		};
+
+		usart1@40016000 {
+			compatible = "arobot,r8-usart";
+			reg = <0x40016000 0x2000>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x05 0x2b>;
+			clock-names = "ap_usart1";
+			resets = <0x08 0x6d>;
+			status = "disabled";
+		};
+
+		i2c0@40010000 {
+			compatible = "arobot,r8-i2c";
+			reg = <0x40010000 0x2000>;
+			clocks = <0x05 0x31>;
+			clock-names = "ap_i2c0";
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		i2c1@40012000 {
+			compatible = "arobot,r8-i2c";
+			reg = <0x40012000 0x2000>;
+			clocks = <0x05 0x50>;
+			clock-names = "rp_i2c1";
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		i2c0@gpio0 {
+			compatible = "i2c-gpio";
+			i2c-gpio,delay-us = <0x02>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		spi0@400b0000 {
+			compatible = "arobot,r8-spi";
+			reg = <0x400b0000 0x2000>;
+			clocks = <0x05 0x2f>;
+			clock-names = "ap_spi0";
+			resets = <0x08 0x69>;
+			dmas = <0x0a 0x00 0x01 0x0a 0x01 0x01>;
+			dma-names = "rx\0tx";
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "okay";
+			u-boot,dm-pre-reloc;
+			pinctrl-names = "default";
+			pinctrl-0 = <0x0b>;
+			spi-pinctrl = <0x41 0x08 0x42 0x08 0x43 0x08 0x44 0x08 0x45 0x08 0x46 0x08>;
+			num-cs = <0x01>;
+			bus-width = <0x04>;
+
+			spi-nand@0 {
+				u-boot,dm-spl;
+				compatible = "spi-nand";
+				spi-cpha;
+				spi-cpol;
+				spi-tx-bus-width = <0x04>;
+				spi-rx-bus-width = <0x04>;
+				spi-max-frequency = <0x2faf080>;
+				reg = <0x00>;
+				status = "okay";
+			};
+		};
+
+		spi1@400b2000 {
+			compatible = "arobot,r8-spi";
+			reg = "@\v \0\0\0 ";
+			clocks = <0x05 0x2e>;
+			clock-names = "ap_spi1";
+			resets = <0x08 0x6a>;
+			dmas = <0x0c 0x00 0x01 0x0c 0x01 0x01>;
+			dma-names = "rx\0tx";
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		fb0@40060000 {
+			compatible = "arobot,r8-lcdc";
+			reg = <0x40060000 0x1000>;
+			interrupts = <0x00 0x09 0x04>;
+			clocks = <0x05 0x14>;
+			clock-names = "ap_lcd";
+			resets = <0x08 0x4d>;
+			status = "disabled";
+		};
+
+		interrupt-controller@b0001000 {
+			compatible = "arm,cortex-a7-gic";
+			reg = <0xb0001000 0x1000 0xb0002000 0x1000>;
+			interrupt-controller;
+			#interrupt-cells = <0x03>;
+			interrupts = <0x01 0x09 0xf04>;
+			phandle = <0x01>;
+		};
+	};
+
+	chosen {
+		u-boot,dm-pre-reloc;
+		#address-cells = <0x01>;
+		#size-cells = <0x01>;
+		ranges;
+		stdout-path = "serial1:115200n8";
+		u-boot,spl-boot-order = "/soc/spi0@400b0000/spi-nand@0";
+		bootargs = "loglevel=8 console=ttyS1,115200 isolcpus=1";
+		rootfs1 = "ubi.mtd=rootfs1 ubi.mtd=data ubi.block=0,rootfs root=/dev/ubiblock0_0 rootwait rootfstype=squashfs init=/sbin/init";
+		rootfs2 = "ubi.mtd=rootfs2 ubi.mtd=data ubi.block=0,rootfs root=/dev/ubiblock0_0 rootwait rootfstype=squashfs init=/sbin/init";
+		blkparts = "mtdparts=spi0.0:1m(boot)ro,1m(misc),1m(pstore),1m(factory),1m(rp1),1m(rp2),6m(system1)ro,6m(system2)ro,32m(rootfs1)ro,32m(rootfs2)ro,-(data)";
+		bootspi = "spiafficpu=2";
+		bootcmd = "run boot_fit_nand";
+	};
+
+	rp {
+		privaf0 = <0xf37fffff>;
+		privaf1 = <0xc7fdfcdb>;
+		privaf2 = <0xfff81f81>;
+		privaf3 = <0x783fd3ff>;
+		status = "okay";
+	};
+
+	aliases {
+		serial1 = "/soc/uart1@40002000";
+		spi0 = "/soc/spi0@400b0000";
+		dma0 = "/soc/dma0@4005a000";
+		dma1 = "/soc/dma1@40068000";
+		arobot-cpu = "/cpus";
+	};
+};

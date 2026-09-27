@@ -1,0 +1,4 @@
+https://xtl-data-sg.ks3-sgp.ksyuncs.com/Jonr/xm2216/sounds/v2/<lang>.tar.gz
+languages : en ru de it fr pl es kr tw vt
+
+https://xtl-data.ks3-cn-beijing.ksyuncs.com/?list-type=1

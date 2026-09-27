@@ -1,0 +1,2340 @@
+/dts-v1/;
+
+/ {
+	#address-cells = <0x01>;
+	#size-cells = <0x01>;
+	interrupt-parent = <0x01>;
+	model = "arobot-r8";
+	compatible = "arobot,r8";
+
+	memory@10000000 {
+		reg = <0x10000000 0x8000000>;
+		device_type = "memory";
+	};
+
+	cpus {
+		enable-method = "arobot,r8-smp";
+		#address-cells = <0x01>;
+		#size-cells = <0x00>;
+
+		cpu@0 {
+			compatible = "arm,cortex-a7";
+			device_type = "cpu";
+			reg = <0x00>;
+			clocks = <0x02 0x08>;
+			clock-names = "cpu";
+			operating-points-v2 = <0x03>;
+			#cooling-cells = <0x02>;
+			phandle = <0x04>;
+		};
+
+		cpu@1 {
+			compatible = "arm,cortex-a7";
+			device_type = "cpu";
+			reg = <0x01>;
+			clocks = <0x02 0x08>;
+			clock-names = "cpu";
+			operating-points-v2 = <0x03>;
+			#cooling-cells = <0x02>;
+			phandle = <0x05>;
+		};
+
+		cpu@2 {
+			compatible = "arm,cortex-a7";
+			device_type = "cpu";
+			reg = <0x02>;
+			clocks = <0x02 0x08>;
+			clock-names = "cpu";
+			operating-points-v2 = <0x03>;
+			#cooling-cells = <0x02>;
+			phandle = <0x06>;
+		};
+	};
+
+	cpu-opp-table {
+		compatible = "operating-points-v2";
+		opp-shared;
+		phandle = <0x03>;
+
+		opp-12000000 {
+			opp-hz = <0x00 0xb71b00>;
+			opp-microvolt = <0x124f80>;
+		};
+
+		opp-756000000 {
+			opp-hz = <0x00 0x2d0fa500>;
+			opp-microvolt = <0x150ea0>;
+		};
+
+		opp-612000000 {
+			opp-hz = <0x00 0x247a6100>;
+			opp-microvolt = <0x12ebc0>;
+		};
+
+		opp-712000000 {
+			opp-hz = <0x00 0x2a704200>;
+			opp-microvolt = <0x147260>;
+		};
+	};
+
+	pmu {
+		compatible = "arm,cortex-a7-pmu";
+		interrupts = <0x00 0x78 0x04 0x00 0x79 0x04 0x00 0x7a 0x04>;
+		interrupt-affinity = <0x04 0x05 0x06>;
+	};
+
+	timer {
+		compatible = "arm,armv7-timer";
+		arm,cpu-registers-not-fw-configured;
+		interrupts = <0x01 0x0d 0xf08 0x01 0x0e 0xf08 0x01 0x0b 0xf08 0x01 0x0a 0xf08>;
+	};
+
+	clocks {
+		#address-cells = <0x01>;
+		#size-cells = <0x01>;
+		ranges;
+
+		osc12M_clk {
+			#clock-cells = <0x00>;
+			compatible = "fixed-clock";
+			clock-frequency = <0xb71b00>;
+			clock-output-names = "osc12M";
+			clocks = <0x07>;
+			clock-names = "osc12M";
+			phandle = <0x07>;
+		};
+
+		osc32k_clk {
+			#clock-cells = <0x00>;
+			compatible = "fixed-clock";
+			clock-frequency = <0x8000>;
+			clock-output-names = "osc32k";
+			phandle = <0x09>;
+		};
+	};
+
+	arobot_cpufreq {
+		compatible = "arobot,r8-cpufreq";
+		clocks = <0x07 0x02 0x08 0x02 0x01>;
+		clock-names = "hosc\0cpu\0cpu_pll";
+		has-pmic = <0x00>;
+		status = "okay";
+	};
+
+	dmadev {
+		compatible = "arobot,dmadev";
+		status = "disabled";
+	};
+
+	i2c0_gpio0 {
+		compatible = "i2c-gpio";
+		i2c-gpio,delay-us = <0x02>;
+		#address-cells = <0x01>;
+		#size-cells = <0x00>;
+		status = "okay";
+		gpios = <0x08 0x01 0x0b 0x00 0x08 0x01 0x0a 0x00>;
+	};
+
+	i2c1_gpio0 {
+		compatible = "i2c-gpio";
+		i2c-gpio,delay-us = <0x02>;
+		#address-cells = <0x01>;
+		#size-cells = <0x00>;
+		status = "disabled";
+	};
+
+	wlan-data {
+		type = "wlan";
+		compatible = "arobot,rfkill";
+		status = "disabled";
+	};
+
+	gpio-keys_0 {
+		compatible = "gpio-keys";
+		status = "disabled";
+	};
+
+	efuse@40048000 {
+		#address-cells = <0x01>;
+		#size-cells = <0x01>;
+		compatible = "arobot,r8-efuse";
+		reg = <0x40048000 0x80 0x4003c300 0x04>;
+		clocks = <0x02 0x35>;
+		clock-names = "pclk_efuse";
+	};
+
+	soc {
+		compatible = "simple-bus";
+		#address-cells = <0x01>;
+		#size-cells = <0x01>;
+		ranges;
+
+		cpuentry@0 {
+			compatible = "arobot,cpuentry";
+			reg = <0x00 0x40>;
+		};
+
+		cpucfg@4005e000 {
+			compatible = "arobot,cpuconfig";
+			reg = <0x4005e000 0x80>;
+		};
+
+		clock@40080000 {
+			compatible = "arobot,r8-ckcu";
+			reg = <0x40080000 0x2000>;
+			clocks = <0x07 0x09>;
+			clock-names = "hosc\0losc";
+			#clock-cells = <0x01>;
+			phandle = <0x02>;
+		};
+
+		rstcu@40080100 {
+			compatible = "arobot,r8-reset";
+			#reset-cells = <0x01>;
+			reg = <0x40080100 0x20>;
+			status = "okay";
+			phandle = <0x0a>;
+		};
+
+		pinctrl@40034000 {
+			compatible = "arobot,r8-pinctrl";
+			reg = <0x40034000 0x4000 0x40070000 0x7000 0x40036000 0x1000>;
+			interrupts = <0x00 0x53 0x04 0x00 0x54 0x04 0x00 0x55 0x04 0x00 0x56 0x04 0x00 0x57 0x04 0x00 0x58 0x04 0x00 0x59 0x04 0x00 0x5a 0x04 0x00 0x5b 0x04 0x00 0x5c 0x04 0x00 0x5d 0x04 0x00 0x5e 0x04 0x00 0x5f 0x04 0x00 0x60 0x04 0x00 0x61 0x04 0x00 0x62 0x04>;
+			clocks = <0x02 0x6a 0x02 0x69 0x02 0x68 0x02 0x67 0x02 0x66 0x02 0x65 0x02 0x64 0x02 0x63 0x02 0x62 0x02 0x61>;
+			clock-names = "afio\0exti\0gpioa\0gpiob\0gpioc\0gpiod\0gpioe\0gpiof\0gpiog\0gpioh";
+			gpio-controller;
+			#gpio-cells = <0x03>;
+			interrupt-controller;
+			#interrupt-cells = <0x03>;
+			exti-nirqs = <0x01>;
+			phandle = <0x08>;
+
+			gpa {
+				gpio-controller;
+				#gpio-cells = <0x02>;
+			};
+
+			gpb {
+				gpio-controller;
+				#gpio-cells = <0x02>;
+			};
+
+			gpc {
+				gpio-controller;
+				#gpio-cells = <0x02>;
+			};
+
+			gpd {
+				gpio-controller;
+				#gpio-cells = <0x02>;
+			};
+
+			gpe {
+				gpio-controller;
+				#gpio-cells = <0x02>;
+			};
+
+			gpg {
+				gpio-controller;
+				#gpio-cells = <0x02>;
+				interrupt-controller;
+				#interrupt-cells = <0x02>;
+			};
+
+			uart0_0 {
+				pins = "PA13\0PA14";
+				function = "uart0";
+				arobot,drive = <0x00>;
+			};
+
+			uart0_s_0 {
+				pins = "PA13\0PA14";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			uart0_6 {
+				pins = "PG8\0PG9";
+				function = "uart0";
+				arobot,drive = <0x00>;
+			};
+
+			uart0_s_6 {
+				pins = "PG8\0PG9";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			uart1_0 {
+				pins = "PA2\0PA3";
+				function = "uart1";
+				arobot,drive = <0x00>;
+			};
+
+			uart1_s_0 {
+				pins = "PG10\0PG11";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			uart1_1 {
+				pins = "PG10\0PG11";
+				function = "uart1";
+				arobot,drive = <0x00>;
+			};
+
+			uart1_rx_1 {
+				pins = "PG10";
+				function = "uart1";
+				arobot,drive = <0x00>;
+			};
+
+			uart1_rx_s_1 {
+				pins = "PG10";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			uart1_rx_2 {
+				pins = "PF3";
+				function = "uart1";
+				arobot,drive = <0x00>;
+			};
+
+			uart1_rx_s_2 {
+				pins = "PF3";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			uart2_0 {
+				pins = "PA4\0PA5";
+				function = "uart2";
+				arobot,drive = <0x00>;
+			};
+
+			uart2_s_0 {
+				pins = "PA4\0PA5";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			uart2_4 {
+				pins = "PD9\0PD10";
+				function = "uart2";
+				arobot,drive = <0x00>;
+			};
+
+			uart2_s_4 {
+				pins = "PD9\0PD10";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			uart2_6 {
+				pins = "PD10";
+				function = "uart2";
+				arobot,drive = <0x00>;
+			};
+
+			uart2_5 {
+				pins = "PG12\0PG13";
+				function = "uart2";
+				arobot,drive = <0x00>;
+			};
+
+			uart2_s_5 {
+				pins = "PG12\0PG13";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			uart3_2 {
+				pins = "PB14\0PB15";
+				function = "uart3";
+				arobot,drive = <0x00>;
+			};
+
+			uart3_s_2 {
+				pins = "PB14\0PB15";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			uart3_6 {
+				pins = "PF5\0PF6";
+				function = "uart3";
+				arobot,drive = <0x00>;
+			};
+
+			uart3_s_6 {
+				pins = "PF5\0PF6";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			uart3_8@0 {
+				pins = "PH8\0PH9";
+				function = "uart3";
+				arobot,drive = <0x00>;
+			};
+
+			uart3_s_8@0 {
+				pins = "PH8\0PH9";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			usart1_2_1 {
+				pins = "PC8";
+				function = "usart1";
+				arobot,drive = <0x00>;
+			};
+
+			usart1_s_2_1 {
+				pins = "PC8";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			usart1_2_2 {
+				pins = "PC8\0PC9";
+				function = "usart1";
+				arobot,drive = <0x00>;
+			};
+
+			usart1_s_2_2 {
+				pins = "PC8\0PC9";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			usart1_3_1 {
+				pins = "PF0\0PF1";
+				function = "usart1";
+				arobot,drive = <0x00>;
+			};
+
+			usart1_s_3_2 {
+				pins = "PF0\0PF1";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			spi0_1 {
+				pins = "PE1\0PE2\0PE3\0PE4";
+				function = "spi0";
+				arobot,drive = <0x02>;
+				arobot,pull = <0x01>;
+			};
+
+			spi0_1s {
+				pins = "PE1\0PE2\0PE3\0PE4";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			spi0_1g {
+				pins = "PE1\0PE2\0PE3";
+				function = "spi0";
+				arobot,drive = <0x02>;
+				arobot,pull = <0x01>;
+			};
+
+			spi0_2 {
+				pins = "PE1\0PE2\0PE3\0PE4\0PE5\0PE6";
+				function = "spi0";
+				arobot,drive = <0x02>;
+				arobot,pull = <0x01>;
+			};
+
+			spi0_2s {
+				pins = "PE1\0PE2\0PE3\0PE4\0PE5\0PE6";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			spi0_2g {
+				pins = "PE1\0PE2\0PE3\0PE5\0PE6";
+				function = "spi0";
+				arobot,drive = <0x02>;
+				arobot,pull = <0x01>;
+			};
+
+			spi0_2gs {
+				pins = "PE1\0PE2\0PE3\0PE5\0PE6";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			spi0_3 {
+				pins = "PG0\0PG1\0PG2\0PG6\0PG7\0PG15";
+				function = "spi0-3";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			spi0_5 {
+				pins = "PG0\0PG1\0PG2\0PG6\0PG7\0PG15";
+				function = "spi0-5";
+				arobot,drive = <0x02>;
+				arobot,pull = <0x01>;
+			};
+
+			spi0_s_5 {
+				pins = "PG0\0PG1\0PG2\0PG6\0PG7\0PG15";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			spi0_t {
+				pins = "PE1\0PE2\0PE3\0PE4\0PE5\0PE6";
+				function = "spi2";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			spi1_0 {
+				pins = "PA6\0PA7\0PA8\0PA9";
+				function = "spi1";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			spi1_0_s {
+				pins = "PA6\0PA7\0PA8\0PA9";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+			};
+
+			spi1_3g {
+				pins = "PA6\0PA7\0PA8";
+				function = "spi1";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			spi1_4 {
+				pins = "PE1\0PE2\0PE3\0PE4\0PE5\0PE6";
+				function = "spi1";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			spi1_4g {
+				pins = "PE1\0PE2\0PE3\0PE5\0PE6";
+				function = "spi1";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			spi1_5 {
+				pins = "PF5\0PF6\0PF7\0PF8\0PF9\0PF10";
+				function = "spi1";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			spi1_x {
+				pins = "PF7\0PF8\0PF9\0PF10";
+				function = "spi1";
+			};
+
+			spi1_6 {
+				pins = "PE1\0PE2\0PE3\0PE4";
+				function = "spi1";
+				arobot,drive = <0x02>;
+				arobot,pull = <0x01>;
+			};
+
+			spi1_s_6 {
+				pins = "PE1\0PE2\0PE3\0PE4";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			spi1_7 {
+				pins = "PE1\0PE2\0PE3\0PE4\0PA4\0PA5";
+				function = "spi1";
+				arobot,drive = <0x02>;
+				arobot,pull = <0x01>;
+			};
+
+			spi1_s_7 {
+				pins = "PE1\0PE2\0PE3\0PE4\0PA4\0PA5";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			spi2_3 {
+				pins = "PD5\0PD6\0PD7\0PD8";
+				function = "spi2";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			spi2_4 {
+				pins = "PD5\0PD6\0PD7\0PC3";
+				function = "spi2";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			spi2_5 {
+				pins = "PC2\0PC3\0PC4\0PC5";
+				function = "spi2";
+				arobot,drive = <0x02>;
+				arobot,pull = <0x01>;
+			};
+
+			csi0_pclk_0 {
+				pins = "PC8";
+				function = "camera0";
+				arobot,drive = <0x03>;
+			};
+
+			csi0_pclk_0_s {
+				pins = "PC8";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			csi1_pclk_0 {
+				pins = "PD5";
+				function = "camera1";
+				arobot,drive = <0x03>;
+			};
+
+			csi0_vsync_0 {
+				pins = "PD2";
+				function = "camera0";
+				arobot,drive = <0x03>;
+			};
+
+			csi0_vsync_0_s {
+				pins = "PD2";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			csi1_vsync_0 {
+				pins = "PE3";
+				function = "camera1";
+				arobot,drive = <0x03>;
+			};
+
+			csi0_hsync_0 {
+				pins = "PD3";
+				function = "camera0";
+				arobot,drive = <0x03>;
+			};
+
+			csi0_hsync_0_s {
+				pins = "PD3";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			csi1_hsync_0 {
+				pins = "PE4";
+				function = "camera1";
+				arobot,drive = <0x03>;
+			};
+
+			csi0_data_0 {
+				pins = "PC9\0PC11\0PC12\0PC13\0PC14\0PC15\0PD0\0PD1";
+				function = "camera0";
+				arobot,drive = <0x03>;
+			};
+
+			csi0_data_0_s {
+				pins = "PC9\0PC11\0PC12\0PC13\0PC14\0PC15\0PD0\0PD1";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			csi1_data_0 {
+				pins = "PD6\0PD7\0PD8\0PD9\0PD10\0PD15\0PE1\0PE2";
+				function = "camera1";
+				arobot,drive = <0x03>;
+			};
+
+			csi0_xclk_0 {
+				pins = "PD4";
+				function = "camera0";
+				arobot,drive = <0x03>;
+			};
+
+			csi1_xclk_0 {
+				pins = "PE5";
+				function = "camera1";
+				arobot,drive = <0x03>;
+			};
+
+			mipi0_mclk_0 {
+				pins = "PC8";
+				function = "csi0";
+				arobot,drive = <0x02>;
+			};
+
+			mipi0_mclk_s_0 {
+				pins = "PC8";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_mclk_0 {
+				pins = "PD14";
+				function = "csi1";
+				arobot,drive = <0x02>;
+				phandle = <0x1b>;
+			};
+
+			mipi1_mclk_s_0 {
+				pins = "PD14";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				phandle = <0x1c>;
+			};
+
+			mipi0_xclk_1 {
+				pins = "PD4";
+				function = "camera0";
+				arobot,drive = <0x02>;
+			};
+
+			mipi0_xclk_s_1 {
+				pins = "PD4";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			mipi0_npclk_0 {
+				pins = "PC11\0PC12";
+				function = "csi0";
+				arobot,drive = <0x00>;
+				phandle = <0x26>;
+			};
+
+			mipi0_npclk_s_0 {
+				pins = "PC11\0PC12";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				phandle = <0x28>;
+			};
+
+			mipi0_data0_0 {
+				pins = "PC13\0PC14";
+				function = "csi0";
+				arobot,drive = <0x00>;
+				phandle = <0x27>;
+			};
+
+			mipi0_data0_s_0 {
+				pins = "PC13\0PC14";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				phandle = <0x29>;
+			};
+
+			mipi0_data1_0 {
+				pins = "PC15\0PD0";
+				function = "csi0";
+				arobot,drive = <0x00>;
+			};
+
+			mipi0_data1_s_0 {
+				pins = "PC15\0PD0";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_xclk_0 {
+				pins = "PE5";
+				function = "camera1";
+				arobot,drive = <0x02>;
+			};
+
+			mipi1_xclk_s_0 {
+				pins = "PE5";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_npclk_0 {
+				pins = "PD5\0PD6";
+				function = "csi1";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_npclk_s_0 {
+				pins = "PD5\0PD6";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_data0_0 {
+				pins = "PD7\0PD8";
+				function = "csi1";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_data0_s_0 {
+				pins = "PD7\0PD8";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_data1_0 {
+				pins = "PD9\0PD10";
+				function = "csi1";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_data1_s_0 {
+				pins = "PD9\0PD10";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			i2c0_0 {
+				pins = "PB0\0PB1";
+				function = "i2c0";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c0_s_0 {
+				pins = "PB0\0PB1";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c0_1 {
+				pins = "PF11\0PF12";
+				function = "i2c0";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c0_s_1 {
+				pins = "PF11\0PF12";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c0_2 {
+				pins = "PH8\0PH9";
+				function = "i2c0";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c0_s_2 {
+				pins = "PH8\0PH9";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c2_0 {
+				pins = "PH6\0PH7";
+				function = "i2c2";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c2_s_0 {
+				pins = "PH6\0PH7";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c1 {
+				pins = "PG3\0PG4";
+				function = "i2c1";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c3_0 {
+				pins = "PB0\0PB1";
+				function = "i2c3";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c3_s_0 {
+				pins = "PB0\0PB1";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c3_1 {
+				pins = "PE3\0PE4";
+				function = "i2c3";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c3_s_1 {
+				pins = "PE3\0PE4";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c3_2 {
+				pins = "PE13\0PE14";
+				function = "i2c3";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c3_s_2 {
+				pins = "PE13\0PE14";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c3_3 {
+				pins = "PH0\0PH1";
+				function = "i2c3";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c3_s_3 {
+				pins = "PH0\0PH1";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c4_0 {
+				pins = "PB4\0PB5";
+				function = "i2c4";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c4_s_0 {
+				pins = "PB4\0PB5";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c4_1 {
+				pins = "PE15\0PF0";
+				function = "i2c4";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c4_s_1 {
+				pins = "PE15\0PF0";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c4_2 {
+				pins = "PG8\0PG9";
+				function = "i2c4";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c4_s_2 {
+				pins = "PG8\0PG9";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c4_3 {
+				pins = "PH2\0PH3";
+				function = "i2c4";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+			};
+
+			i2c4_s_3 {
+				pins = "PH2\0PH3";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio0_4 {
+				pins = "PE13\0PE14\0PE15\0PF0\0PF1\0PG13";
+				function = "sdio0";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio0_s_4 {
+				pins = "PE13\0PE14\0PE15\0PF0\0PF1\0PG13";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio0_clk_6 {
+				pins = "PG8";
+				function = "sdio0";
+				arobot,drive = <0x01>;
+			};
+
+			sdio0_clk_s_6 {
+				pins = "PG8";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio0_cmd_6 {
+				pins = "PG9";
+				function = "sdio0";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio0_cmd_s_6 {
+				pins = "PG9";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio0_6 {
+				pins = "PG8\0PG9\0PG10\0PG11\0PG12\0PG13";
+				function = "sdio0";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio0_data_s_6 {
+				pins = "PG10\0PG11\0PG12\0PG13";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio0_s_6 {
+				pins = "PG8\0PG9\0PG10\0PG11\0PG12\0PG13";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio0_7 {
+				pins = "PE13\0PE14\0PE15\0PF0\0PF1\0PG13";
+				function = "sdio0";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio0_s_7 {
+				pins = "PE13\0PE14\0PE15\0PF0\0PF1\0PG13";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio0_8 {
+				pins = "PE13\0PE14\0PE15\0PF0\0PF1\0PF2";
+				function = "sdio0";
+				arobot,drive = <0x03>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio0_s_8 {
+				pins = "PE13\0PE14\0PE15\0PF0\0PF1\0PF2";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio1_clk_2 {
+				pins = "PC2";
+				function = "sdio1";
+				arobot,drive = <0x01>;
+			};
+
+			sdio1_clk_s_2 {
+				pins = "PC2";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio1_cmd_2 {
+				pins = "PC3";
+				function = "sdio1";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio1_cmd_s_2 {
+				pins = "PC3";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio1_data_2 {
+				pins = "PC4\0PC5\0PC6\0PC7";
+				function = "sdio1";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio1_data_s_2 {
+				pins = "PC4\0PC5\0PC6\0PC7";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio1_data_3 {
+				pins = "PC4\0PC5\0PE5\0PE6";
+				function = "sdio1";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio1_data_s_3 {
+				pins = "PC4\0PC5\0PE5\0PE6";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio1_clk_4 {
+				pins = "PE1";
+				function = "sdio1";
+				arobot,drive = <0x01>;
+			};
+
+			sdio1_clk_s_4 {
+				pins = "PE1";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio1_cmd_4 {
+				pins = "PE2";
+				function = "sdio1";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio1_cmd_s_4 {
+				pins = "PE2";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio1_data_4 {
+				pins = "PE3\0PE4\0PE5\0PE6";
+				function = "sdio1";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio1_data_s_4 {
+				pins = "PE3\0PE4\0PE5\0PE6";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			dac_0 {
+				pins = "PB7";
+				function = "dac";
+				arobot,drive = <0x03>;
+			};
+
+			dac_s_0 {
+				pins = "PB7";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			usbd {
+				pins = "PD11\0PD12";
+				function = "usb";
+				arobot,drive = <0x00>;
+			};
+
+			usbd_s {
+				pins = "PD11\0PD12";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			lcdc_ctrl_0 {
+				pins = "PB7\0PB3\0PA7\0PB2";
+				function = "lcd";
+				arobot,drive = <0x00>;
+			};
+
+			lcdc_ctrl_1 {
+				pins = "PB7\0PB6\0PA7\0PB2";
+				function = "lcd";
+				arobot,drive = <0x00>;
+			};
+
+			lcdc_data_24b_0 {
+				pins = "PE1\0PE2\0PE3\0PE4\0PE5\0PE6\0PE7\0PE8\0PE9\0PE10\0PE11\0PE12\0PF3\0PF4\0PF7\0PF8\0PF9\0PF10\0PF13\0PF14\0PC2\0PC3\0PC4\0PC5";
+				function = "lcd";
+				arobot,drive = <0x00>;
+			};
+
+			lcdc_data_24b_1 {
+				pins = "PA13\0PA14\0PA15\0PB0\0PB1\0PE6\0PA2\0PA3\0PA4\0PA5\0PA8\0PA9\0PF3\0PF4\0PF7\0PF8\0PF9\0PF10\0PF13\0PF14\0PC2\0PC3\0PC4\0PC5";
+				function = "lcd";
+				arobot,drive = <0x00>;
+			};
+
+			t0_ch0 {
+				pins = "PA6";
+				function = "timer0";
+			};
+
+			usb_pins {
+				pins = "PD11\0PD12";
+				function = "usb";
+				arobot,drive = <0x00>;
+				phandle = <0x11>;
+			};
+
+			dac_pin {
+				pins = "PB7";
+				function = "dac";
+				arobot,drive = <0x03>;
+				phandle = <0x32>;
+			};
+
+			dac_pin_s {
+				pins = "PB7";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				phandle = <0x33>;
+			};
+
+			spi0_pins {
+				pins = "PE1\0PE2\0PE3\0PE4\0PE5\0PE6";
+				function = "spi0";
+				arobot,drive = <0x02>;
+				arobot,pull = <0x01>;
+				phandle = <0x23>;
+			};
+
+			spi0_pins_s {
+				pins = "PE1\0PE2\0PE3\0PE4\0PE5\0PE6";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+				phandle = <0x24>;
+			};
+
+			uart1_pins {
+				pins = "PG10\0PG11";
+				function = "uart1";
+				arobot,drive = <0x00>;
+				phandle = <0x12>;
+			};
+
+			uart1_pins_s {
+				pins = "PG10\0PG11";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				phandle = <0x13>;
+			};
+
+			usart0_pins {
+				pins = "PF13\0PF14";
+				function = "usart0";
+				arobot,drive = <0x00>;
+			};
+
+			usart0_pins_s {
+				pins = "PF13\0PF14";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			usart1_pins {
+				pins = "PC8";
+				function = "usart1";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+				phandle = <0x14>;
+			};
+
+			usart1_pins_s {
+				pins = "PC8";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+				phandle = <0x15>;
+			};
+
+			sdio0_clk {
+				pins = "PE13";
+				function = "sdio0";
+				arobot,drive = <0x01>;
+				phandle = <0x0b>;
+			};
+
+			sdio0_clk_s {
+				pins = "PE13";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+				phandle = <0x0e>;
+			};
+
+			sdio0_cmd {
+				pins = "PE14";
+				function = "sdio0";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+				phandle = <0x0c>;
+			};
+
+			sdio0_cmd_s {
+				pins = "PE14";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+				phandle = <0x0f>;
+			};
+
+			sdio0_data {
+				pins = "PE15\0PF0\0PF1\0PF2";
+				function = "sdio0";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+				phandle = <0x0d>;
+			};
+
+			sdio0_data_s {
+				pins = "PE15\0PF0\0PF1\0PF2";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+				phandle = <0x10>;
+			};
+
+			sdio1_clk {
+				pins = "PC2";
+				function = "sdio1";
+				arobot,drive = <0x01>;
+			};
+
+			sdio1_clk_s {
+				pins = "PC2";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio1_cmd {
+				pins = "PC3";
+				function = "sdio1";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio1_cmd_s {
+				pins = "PC3";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			sdio1_data {
+				pins = "PC4\0PC5\0PC6\0PC7";
+				function = "sdio1";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x01>;
+			};
+
+			sdio1_data_s {
+				pins = "PC4\0PC5\0PC6\0PC7";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+			};
+
+			i2c0_pins {
+				pins = "PH8\0PH9";
+				function = "i2c0";
+				arobot,drive = <0x02>;
+				arobot,odrain;
+				phandle = <0x16>;
+			};
+
+			i2c0_pins_s {
+				pins = "PH8\0PH9";
+				function = "gpio";
+				arobot,drive = <0x00>;
+				arobot,pull = <0x00>;
+				phandle = <0x17>;
+			};
+
+			mipi0_clk_pins {
+				pins = "PC11\0PC12";
+				function = "csi0";
+				arobot,drive = <0x00>;
+			};
+
+			mipi0_clk_pins_s {
+				pins = "PC11\0PC12";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			mipi0_data0_pins {
+				pins = "PC13\0PC14";
+				function = "csi0";
+				arobot,drive = <0x00>;
+			};
+
+			mipi0_data0_pins_s {
+				pins = "PC13\0PC14";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_clk_pins {
+				pins = "PD5\0PD6";
+				function = "csi1";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_clk_pins_s {
+				pins = "PD5\0PD6";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_data0_pins {
+				pins = "PD7\0PD8";
+				function = "csi1";
+				arobot,drive = <0x00>;
+			};
+
+			mipi1_data0_pins_s {
+				pins = "PD7\0PD8";
+				function = "gpio";
+				arobot,drive = <0x00>;
+			};
+		};
+
+		dma0@4005a000 {
+			compatible = "arobot,r8-dma";
+			reg = <0x4005a000 0x2000>;
+			interrupts = <0x00 0x1a 0x04 0x00 0x1b 0x04 0x00 0x1c 0x04 0x00 0x1d 0x04 0x00 0x1e 0x04 0x00 0x1f 0x04 0x00 0x20 0x04 0x00 0x21 0x04>;
+			clocks = <0x02 0x19>;
+			clock-names = "ap_dma0";
+			resets = <0x0a 0x49>;
+			#dma-cells = <0x02>;
+			dma-pchannels = <0x08>;
+			dma-vchannels = <0x0f>;
+			dma-requests = <0x0f>;
+			status = "okay";
+			phandle = <0x22>;
+		};
+
+		dma1@40068000 {
+			compatible = "arobot,r8-dma";
+			reg = <0x40068000 0x2000>;
+			interrupts = <0x00 0x22 0x04 0x00 0x23 0x04 0x00 0x24 0x04 0x00 0x25 0x04 0x00 0x26 0x04 0x00 0x27 0x04 0x00 0x28 0x04 0x00 0x29 0x04>;
+			clocks = <0x02 0x18>;
+			clock-names = "ap_dma1";
+			resets = <0x0a 0x4a>;
+			#dma-cells = <0x02>;
+			dma-pchannels = <0x08>;
+			dma-vchannels = <0x0c>;
+			dma-requests = <0x0c>;
+			status = "okay";
+			phandle = <0x25>;
+		};
+
+		wdt0@4003a000 {
+			compatible = "arobot,r8-wdt";
+			reg = <0x4003a000 0x20>;
+			interrupts = <0x00 0x03 0x04>;
+			clocks = <0x02 0x2b>;
+			clock-names = "ap_wdt0";
+			resets = <0x0a 0x6e 0x0a 0x08 0x0a 0x09 0x0a 0x0a 0x0a 0x06>;
+			status = "okay";
+		};
+
+		wdt2@4003b000 {
+			compatible = "arobot,r8-wdt";
+			reg = <0x4003b000 0x20>;
+			clocks = <0x02 0x5c>;
+			clock-names = "wdt2";
+			resets = <0x0a 0x2e 0x0a 0x10 0x0a 0x11 0x0a 0x12 0x0a 0x06>;
+			status = "disabled";
+		};
+
+		rtc@4003c000 {
+			compatible = "arobot,r8-rtc";
+			reg = <0x4003c000 0x118>;
+			interrupts = <0x00 0x04 0x04>;
+			clocks = <0x02 0x60>;
+			clock-names = "rtc";
+			status = "okay";
+		};
+
+		syscnt@4004a000 {
+			compatible = "arobot,r8-syscnt";
+			reg = <0x4004a000 0x10>;
+			clocks = <0x02 0x33>;
+			clock-names = "ap_gtimer";
+			clock-frequency = <0xe4e1c00>;
+			status = "okay";
+		};
+
+		timer@4004c000 {
+			compatible = "arobot,r8-timer";
+			reg = <0x4004c000 0x10>;
+			interrupts = <0x00 0x11 0x04>;
+			clocks = <0x02 0x39>;
+			clock-names = "ap_bftm4";
+			status = "okay";
+		};
+
+		pwm@40018000 {
+			compatible = "arobot,r8-pwm";
+			reg = <0x40018000 0xac>;
+			clocks = <0x02 0x55>;
+			clock-names = "rp_gptm0";
+			status = "disabled";
+		};
+
+		mmc0@400a0000 {
+			compatible = "arobot,r8-mmc";
+			reg = <0x400a0000 0x100>;
+			clocks = <0x07 0x02 0x06 0x02 0x14>;
+			clock-names = "osc12M\0pll_big\0ap_sdio0";
+			resets = <0x0a 0x4e>;
+			interrupts = <0x00 0x2b 0x04>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "okay";
+			pinctrl-names = "default\0sleep";
+			pinctrl-0 = <0x0b 0x0c 0x0d>;
+			pinctrl-1 = <0x0e 0x0f 0x10>;
+			user-scan;
+			max-frequency = <0x2faf080>;
+			bus-width = <0x04>;
+			no-sd;
+			no-mmc;
+			keep-power-in-suspend;
+			cap-sdio-highspeed;
+		};
+
+		mmc1@400a6000 {
+			compatible = "arobot,r8-mmc";
+			reg = <0x400a6000 0x100>;
+			clocks = <0x07 0x02 0x06 0x02 0x13>;
+			clock-names = "osc12M\0pll_big\0ap_sdio1";
+			resets = <0x0a 0x4f>;
+			interrupts = <0x00 0x2c 0x04>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		usbd@400a4000 {
+			compatible = "arobot,r8-udc";
+			reg = "@\n@\0\0\0 ";
+			interrupts = <0x00 0x0a 0x04>;
+			clocks = <0x02 0x03 0x02 0x0e>;
+			clock-names = "pll_usb\0ap_usb";
+			resets = <0x0a 0x53>;
+			status = "okay";
+			#address-cells = <0x01>;
+			#size-cells = <0x01>;
+			pinctrl-names = "default";
+			pinctrl-0 = <0x11>;
+		};
+
+		uart0@40000000 {
+			compatible = "arobot,r8-uart";
+			reg = <0x40000000 0x2000>;
+			interrupts = <0x00 0x4c 0x04>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x02 0x40>;
+			clock-names = "rp_uart0";
+			resets = <0x0a 0xb3>;
+			status = "disabled";
+		};
+
+		uart1@40002000 {
+			compatible = "arobot,r8-uart";
+			reg = <0x40002000 0x2000>;
+			interrupts = <0x00 0x18 0x04>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x02 0x2d>;
+			clock-names = "ap_uart1";
+			resets = <0x0a 0x6c>;
+			status = "okay";
+			pinctrl-names = "default\0sleep";
+			pinctrl-0 = <0x12>;
+			pinctrl-1 = <0x13>;
+		};
+
+		uart2@40004000 {
+			compatible = "arobot,r8-uart";
+			reg = <0x40004000 0x2000>;
+			interrupts = <0x00 0x4d 0x04>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x02 0x3f>;
+			clock-names = "rp_uart2";
+			resets = <0x0a 0xb4>;
+			status = "disabled";
+		};
+
+		uart3@40006000 {
+			compatible = "arobot,r8-uart";
+			reg = <0x40006000 0x2000>;
+			interrupts = <0x00 0x4e 0x04>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x02 0x3e>;
+			clock-names = "rp_uart3";
+			resets = <0x0a 0xb5>;
+			status = "disabled";
+		};
+
+		usart0@40014000 {
+			compatible = "arobot,r8-usart";
+			reg = <0x40014000 0x2000>;
+			interrupts = <0x00 0x4f 0x04>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x02 0x3d>;
+			clock-names = "rp_usart0";
+			status = "disabled";
+		};
+
+		usart1@40016000 {
+			compatible = "arobot,r8-usart";
+			reg = <0x40016000 0x2000>;
+			interrupts = <0x00 0x19 0x04>;
+			reg-shift = <0x02>;
+			reg-io-width = <0x04>;
+			clocks = <0x02 0x2c>;
+			clock-names = "ap_usart1";
+			resets = <0x0a 0x6d>;
+			status = "okay";
+			pinctrl-names = "default\0sleep";
+			pinctrl-0 = <0x14>;
+			pinctrl-1 = <0x15>;
+		};
+
+		i2c0@40010000 {
+			compatible = "arobot,r8-i2c";
+			reg = <0x40010000 0x2000>;
+			interrupts = <0x00 0x14 0x04>;
+			clocks = <0x02 0x32>;
+			clock-names = "ap_i2c0";
+			resets = <0x0a 0x67>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "okay";
+			clock-frequency = <0x13880>;
+			pinctrl-names = "default\0sleep";
+			pinctrl-0 = <0x16>;
+			pinctrl-1 = <0x17>;
+
+			i2c0_ov7251@60 {
+				status = "disabled";
+				compatible = "ovti,ov7251";
+				reg = <0x60>;
+				clock-frequency = <0xb71b00>;
+
+				port {
+
+					endpoint {
+						remote-endpoint = <0x18>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x2a>;
+					};
+				};
+			};
+
+			i2c0_sc031gs@30 {
+				status = "disabled";
+				compatible = "smse,sc031gs";
+				reg = <0x30>;
+				clock-frequency = <0x16e3600>;
+
+				port {
+
+					endpoint {
+						remote-endpoint = <0x19>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x2b>;
+					};
+				};
+			};
+
+			i2c0_sc035hgs@31 {
+				status = "disabled";
+				compatible = "smse,sc035hgs";
+				reg = <0x31>;
+				clock-frequency = <0x16e3600>;
+
+				port {
+
+					endpoint {
+						remote-endpoint = <0x1a>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x2c>;
+					};
+				};
+			};
+
+			i2c0_gc0406@21 {
+				status = "okay";
+				compatible = "arobot, gc0406";
+				reg = <0x21>;
+				clock-software = <0x00>;
+				arobot,camera-module-index = <0x00>;
+				arobot,camera-module-facing = "front";
+				arobot,camera-module-name = "GC0406";
+				clock-names = "xclk";
+				clocks = <0x02 0x1e>;
+				clock-frequency = <0x16e3600>;
+				pinctrl-names = "default\0sleep";
+				pinctrl-0 = <0x1b>;
+				pinctrl-1 = <0x1c>;
+				enable-gpios = <0x08 0x03 0x01 0x00>;
+				laser-nums = <0x01>;
+				laser-gpios = <0x08 0x06 0x0d 0x00>;
+
+				port {
+
+					endpoint {
+						remote-endpoint = <0x1d>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x2d>;
+					};
+				};
+			};
+		};
+
+		i2c1@40012000 {
+			compatible = "arobot,r8-i2c";
+			reg = <0x40012000 0x2000>;
+			interrupts = <0x00 0x46 0x04>;
+			clocks = <0x02 0x51>;
+			clock-names = "rp_i2c1";
+			resets = <0x0a 0xa9>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		i2c2@40020000 {
+			compatible = "arobot,r8-i2c";
+			reg = <0x40020000 0x2000>;
+			interrupts = <0x00 0x15 0x04>;
+			clocks = <0x02 0x31>;
+			clock-names = "ap_i2c2";
+			resets = <0x0a 0x68>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+			clock-frequency = <0x13880>;
+
+			i2c2_ov7251@60 {
+				status = "disabled";
+				compatible = "ovti,ov7251";
+				reg = <0x60>;
+				clock-frequency = <0xb71b00>;
+
+				port {
+
+					endpoint {
+						remote-endpoint = <0x1e>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x2e>;
+					};
+				};
+			};
+
+			i2c2_sc031gs@30 {
+				status = "disabled";
+				compatible = "smse,sc031gs";
+				reg = <0x30>;
+				clock-frequency = <0x16e3600>;
+
+				port {
+
+					endpoint {
+						remote-endpoint = <0x1f>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x2f>;
+					};
+				};
+			};
+
+			i2c2_sc035hgs@31 {
+				status = "disabled";
+				compatible = "smse,sc035hgs";
+				reg = <0x31>;
+				clock-frequency = <0x16e3600>;
+
+				port {
+
+					endpoint {
+						remote-endpoint = <0x20>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x30>;
+					};
+				};
+			};
+
+			i2c2_gc0406@21 {
+				status = "disabled";
+				compatible = "arobot, gc0406";
+				reg = <0x21>;
+				clock-software = <0x00>;
+
+				port {
+
+					endpoint {
+						remote-endpoint = <0x21>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x31>;
+					};
+				};
+			};
+		};
+
+		i2c3@40022000 {
+			compatible = "arobot,r8-i2c";
+			reg = <0x40022000 0x2000>;
+			interrupts = <0x00 0x47 0x04>;
+			clocks = <0x02 0x50>;
+			clock-names = "rp_i2c3";
+			resets = <0x0a 0xaa>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		i2c4@40024000 {
+			compatible = "arobot,r8-i2c";
+			reg = <0x40024000 0x2000>;
+			interrupts = <0x00 0x48 0x04>;
+			clocks = <0x02 0x4f>;
+			clock-names = "rp_i2c4";
+			resets = <0x0a 0xab>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		spi0@400b0000 {
+			compatible = "arobot,r8-spi";
+			reg = <0x400b0000 0x2000>;
+			interrupts = <0x00 0x16 0x04>;
+			clocks = <0x02 0x30>;
+			clock-names = "ap_spi0";
+			resets = <0x0a 0x69>;
+			dmas = <0x22 0x00 0x20 0x22 0x01 0x20>;
+			dma-names = "rx\0tx";
+			fifo_trig_level = <0x20>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "okay";
+			pinctrl-names = "default\0sleep";
+			pinctrl-0 = <0x23>;
+			pinctrl-1 = <0x24>;
+			num-cs = <0x01>;
+			bus-width = <0x04>;
+
+			spi-nand@0 {
+				compatible = "spi-nand";
+				spi-cpha;
+				spi-cpol;
+				spi-tx-bus-width = <0x04>;
+				spi-rx-bus-width = <0x04>;
+				spi-max-frequency = <0x2faf080>;
+				reg = <0x00>;
+				#address-cells = <0x01>;
+				#size-cells = <0x01>;
+			};
+		};
+
+		spi1@400b2000 {
+			compatible = "arobot,r8-spi";
+			reg = "@\v \0\0\0 ";
+			interrupts = <0x00 0x17 0x04>;
+			clocks = <0x02 0x2f>;
+			clock-names = "ap_spi1";
+			resets = <0x0a 0x6a>;
+			dmas = <0x25 0x00 0x10 0x25 0x01 0x10>;
+			dma-names = "rx\0tx";
+			fifo_trig_level = <0x10>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		spi2@400b4000 {
+			compatible = "arobot,r8-spi";
+			reg = "@\v@\0\0\0 ";
+			interrupts = <0x00 0x49 0x04>;
+			clocks = <0x02 0x43>;
+			clock-names = "rp_spi2";
+			resets = <0x0a 0xb0>;
+			fifo_trig_level = <0x10>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		mipi0@40056000 {
+			compatible = "arobot,r8-mipi";
+			reg = <0x40056000 0x1000>;
+			interrupts = <0x00 0x0f 0x04>;
+			clocks = <0x02 0x1e>;
+			clock-names = "ap_csi0";
+			resets = <0x0a 0x46>;
+			status = "disabled";
+		};
+
+		mipi1@40064000 {
+			compatible = "arobot,r8-mipi";
+			reg = <0x40064000 0x1000>;
+			interrupts = <0x00 0x10 0x04>;
+			clocks = <0x02 0x1d>;
+			clock-names = "ap_csi1";
+			resets = <0x0a 0x47>;
+			status = "disabled";
+		};
+
+		csi0@40056000 {
+			compatible = "arobot,r8-csi";
+			reg = <0x40056000 0x1000>;
+			interrupts = <0x00 0x0f 0x04>;
+			clocks = <0x02 0x1e>;
+			clock-names = "ap_csi0";
+			resets = <0x0a 0x46>;
+			status = "disabled";
+		};
+
+		csi1@40064000 {
+			compatible = "arobot,r8-csi";
+			reg = <0x40064000 0x1000>;
+			interrupts = <0x00 0x10 0x04>;
+			clocks = <0x02 0x1d>;
+			clock-names = "ap_csi1";
+			resets = <0x0a 0x47>;
+			status = "disabled";
+		};
+
+		video0@40056000 {
+			compatible = "arobot,r8-video";
+			reg = <0x40056000 0x1000>;
+			interrupts = <0x00 0x0f 0x04>;
+			clocks = <0x02 0x1e>;
+			clock-names = "ap_csi0";
+			resets = <0x0a 0x46>;
+			status = "okay";
+			pinctrl-names = "default\0sleep";
+			pinctrl-0 = <0x26 0x27>;
+			pinctrl-1 = <0x28 0x29>;
+
+			ports {
+				#address-cells = <0x01>;
+				#size-cells = <0x00>;
+
+				port@0 {
+					reg = <0x00>;
+					#address-cells = <0x01>;
+					#size-cells = <0x00>;
+
+					endpoint {
+						#address-cells = <0x01>;
+						#size-cells = <0x00>;
+						remote-endpoint = <0x2a>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x18>;
+					};
+				};
+
+				port@10 {
+					reg = <0x0a>;
+					#address-cells = <0x01>;
+					#size-cells = <0x00>;
+
+					endpoint {
+						remote-endpoint = <0x2b>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x19>;
+					};
+				};
+
+				port@11 {
+					reg = <0x0b>;
+					#address-cells = <0x01>;
+					#size-cells = <0x00>;
+
+					endpoint {
+						remote-endpoint = <0x2c>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x1a>;
+					};
+				};
+
+				port@21 {
+					reg = <0x15>;
+					#address-cells = <0x01>;
+					#size-cells = <0x00>;
+
+					endpoint {
+						remote-endpoint = <0x2d>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x1d>;
+					};
+				};
+			};
+		};
+
+		video1@40064000 {
+			compatible = "arobot,r8-video";
+			reg = <0x40064000 0x1000>;
+			interrupts = <0x00 0x10 0x04>;
+			clocks = <0x02 0x1d>;
+			clock-names = "ap_csi1";
+			resets = <0x0a 0x47>;
+			status = "disabled";
+
+			ports {
+				#address-cells = <0x01>;
+				#size-cells = <0x00>;
+
+				port@0 {
+					reg = <0x00>;
+					#address-cells = <0x01>;
+					#size-cells = <0x00>;
+
+					endpoint {
+						remote-endpoint = <0x2e>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x1e>;
+					};
+				};
+
+				port@10 {
+					reg = <0x0a>;
+					#address-cells = <0x01>;
+					#size-cells = <0x00>;
+
+					endpoint {
+						remote-endpoint = <0x2f>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x1f>;
+					};
+				};
+
+				port@11 {
+					reg = <0x0b>;
+					#address-cells = <0x01>;
+					#size-cells = <0x00>;
+
+					endpoint {
+						remote-endpoint = <0x30>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x20>;
+					};
+				};
+
+				port@21 {
+					reg = <0x15>;
+					#address-cells = <0x01>;
+					#size-cells = <0x00>;
+
+					endpoint {
+						remote-endpoint = <0x31>;
+						bus-type = <0x00>;
+						clock-lanes = <0x00>;
+						data-lanes = <0x01>;
+						phandle = <0x21>;
+					};
+				};
+			};
+		};
+
+		fb0@40060000 {
+			compatible = "arobot,r8-lcdc";
+			reg = <0x40060000 0x1000>;
+			interrupts = <0x00 0x09 0x04>;
+			clocks = <0x02 0x15>;
+			clock-names = "ap_lcd";
+			resets = <0x0a 0x4d>;
+			status = "disabled";
+		};
+
+		vpu@40066000 {
+			compatible = "arobot,r8-vpu";
+			reg = <0x40066000 0x2000>;
+			interrupts = <0x00 0x0d 0x04>;
+			clocks = <0x02 0x17 0x02 0x01>;
+			clock-names = "ap_vpu\0pll_cpu";
+			major = <0xf8>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		codec@4000a000 {
+			#sound-dai-cells = <0x00>;
+			compatible = "arobot,r8-codec";
+			reg = <0x4000a000 0x20>;
+			interrupts = <0x00 0x08 0x04>;
+			clocks = <0x02 0x2a 0x02 0x34 0x02 0x03>;
+			clock-names = "ap_apb\0ap_dac\0pll_usb";
+			resets = <0x0a 0x65>;
+			dmas = <0x22 0x0c 0x01 0x22 0x0c 0x01>;
+			dma-names = "tx\0rx";
+			status = "okay";
+			pinctrl-names = "default\0sleep";
+			pinctrl-0 = <0x32>;
+			pinctrl-1 = <0x33>;
+			arobot,pa-gpios = <0x08 0x02 0x02 0x00>;
+		};
+
+		msgunit@40082000 {
+			compatible = "arobot,r8-msg-unit-rp";
+			reg = <0x40082000 0x28>;
+			interrupt-names = "rp_mu_tx_irq\0rp_mu_rx_irq";
+			interrupts = <0x00 0x2f 0x04 0x00 0x30 0x04>;
+			#mbox-cells = <0x01>;
+			status = "okay";
+			wakeup-source;
+			phandle = <0x34>;
+		};
+
+		msgctl@8f800 {
+			compatible = "arobot,r8-msg-ctrl-rp";
+			reg-names = "tx_mem\0rx_mem";
+			reg = <0x8f800 0x200 0x8fa00 0x200>;
+			mbox-names = "rp_mu_tx\0rp_mu_rx";
+			mboxes = <0x34 0x00 0x34 0x01>;
+			status = "okay";
+		};
+
+		sram_am@20000 {
+			compatible = "arobot,r8-sram";
+			reg = <0x8e000 0x1000>;
+			base = <0x8e000>;
+			size = <0x1000>;
+			major = <0xf2>;
+			status = "disabled";
+		};
+
+		sram_shared@8e000 {
+			compatible = "arobot,r8-sram-shard";
+			reg = <0x8e000 0x1000>;
+			status = "disabled";
+		};
+
+		bnzm@40079000 {
+			compatible = "arobot,r8-bnzm";
+			reg = <0x40079000 0x200>;
+			interrupts = <0x00 0x33 0x04>;
+			clocks = <0x02 0x23>;
+			clock-names = "ap_bnzm";
+			resets = <0x0a 0x41>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "disabled";
+		};
+
+		cfm@40078000 {
+			compatible = "arobot,r8-cfm";
+			reg = <0x40078000 0x200>;
+			interrupts = <0x00 0x32 0x04>;
+			clocks = <0x02 0x20>;
+			clock-names = "ap_cfm";
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			major = <0x111>;
+			status = "disabled";
+		};
+
+		lsacc2d@4006a000 {
+			compatible = "arobot,r8-lsacc2d";
+			reg = <0x4006a000 0x200>;
+			lsacc-sram = <0x00>;
+			lsacc-sram-size = <0x40000>;
+			interrupts = <0x00 0x2e 0x04>;
+			clocks = <0x02 0x16>;
+			clock-names = "ap_lacc";
+			resets = <0x0a 0x4c>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			major = <0x113>;
+			status = "disabled";
+		};
+
+		vacc@4007c000 {
+			compatible = "arobot,r8-vacc";
+			reg = <0x4007c000 0x200>;
+			interrupts = <0x00 0x34 0x04>;
+			clocks = <0x02 0x0d>;
+			clock-names = "ap_vacc";
+			vacc-sram = <0x88000>;
+			vacc-sram-size = <0x7800>;
+			resets = <0x0a 0x54>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			major = <0x115>;
+			status = "disabled";
+		};
+
+		rp@40000 {
+			compatible = "arobot,r8-rp";
+			reg-names = "rp_mem";
+			reg = <0x40000 0x48000>;
+			clocks = <0x02 0x36 0x02 0x07>;
+			clock-names = "ap_chipid\0pll_ltl";
+			resets = <0x0a 0x06>;
+			major = <0x117>;
+			status = "okay";
+		};
+
+		gauss@400aa000 {
+			compatible = "arobot,r8-gauss";
+			reg = <0x400aa000 0x200>;
+			interrupts = <0x00 0x0e 0x04>;
+			clocks = <0x02 0x12>;
+			clock-names = "ap_sift";
+			resets = <0x0a 0x50>;
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			major = <0xf4>;
+			max-mem-order = <0x0a>;
+			status = "disabled";
+		};
+
+		aes@400a2000 {
+			compatible = "arobot,r8-aes";
+			reg = <0x400a2000 0x50>;
+			interrupts = <0x00 0x2a 0x04>;
+			clocks = <0x02 0x24>;
+			clock-names = "ap_aes";
+			resets = <0x0a 0x40>;
+			dmas = <0x25 0x08 0x04 0x22 0x0a 0x04>;
+			dma-names = "in\0out";
+			#address-cells = <0x01>;
+			#size-cells = <0x01>;
+			max-mem-order = <0x0a>;
+			status = "disabled";
+		};
+
+		adc@40080000 {
+			compatible = "arobot,r8-adc";
+			reg = <0x40080000 0x2000 0x40008000 0x100 0x4003c000 0x100>;
+			reg-names = "ccu\0adc\0rtc";
+			force-init = <0x00>;
+			sampling-frequency = <0x100000>;
+			status = "disabled";
+		};
+
+		interrupt-controller@b0001000 {
+			compatible = "arm,cortex-a7-gic";
+			reg = <0xb0001000 0x1000 0xb0002000 0x1000>;
+			interrupt-controller;
+			#interrupt-cells = <0x03>;
+			interrupts = <0x01 0x09 0xf04>;
+			phandle = <0x01>;
+		};
+	};
+
+	chosen {
+		#address-cells = <0x01>;
+		#size-cells = <0x01>;
+		ranges;
+		bootargs = "loglevel=6 console=ttyS1,115200";
+	};
+
+	aliases {
+		serial0 = "/soc/uart0@40000000";
+		serial1 = "/soc/uart1@40002000";
+		serial2 = "/soc/uart2@40004000";
+		serial3 = "/soc/uart3@40006000";
+		serial4 = "/soc/usart0@40014000";
+		serial5 = "/soc/usart1@40016000";
+		arobot-spi0 = "/soc/spi0@400b0000";
+		arobot-spi1 = "/soc/spi1@400b2000";
+		arobot-spi2 = "/soc/spi2@400b4000";
+		arobot-dma0 = "/soc/dma0@4005a000";
+		arobot-dma1 = "/soc/dma1@40068000";
+		arobot-mmc0 = "/soc/mmc0@400a0000";
+		arobot-mmc1 = "/soc/mmc1@400a6000";
+		arobot-cpu = "/cpus";
+	};
+};

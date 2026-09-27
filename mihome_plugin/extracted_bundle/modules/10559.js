@@ -1,0 +1,13 @@
+al_svg,
+    base_collect_svg: base_collect_svg,
+    base_wash_svg: base_wash_svg,
+    base_wind_svg: base_wind_svg,
+    base_add_water_svg: base_add_water_svg,
+    base_clean_self_svg: base_clean_self_svg,
+    base_cut_svg: base_cut_svg,
+    base_charge_svg: base_charge_svg,
+    VirtualDoorsillDelIcon_svg: VirtualDoorsillDelIcon_svg,
+    VirtualDoorsillMoveIcon_svg: VirtualDoorsillMoveIcon_svg,
+    Bg3_svg: Bg3_svg,
+    Bg4_svg: Bg4_svg,
+    CleaningTimes1_svg

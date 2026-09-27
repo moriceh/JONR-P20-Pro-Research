@@ -1,0 +1,13 @@
+OM_svg: SCEOND_BEDROOM_svg,
+    EntranceHall_svg: EntranceHall_svg,
+    CAN_TING_svg: CAN_TING_svg,
+    CHU_CANG_SHI_svg: CHU_CANG_SHI_svg,
+    CHU_FANG_svg: CHU_FANG_svg,
+    DEFAULT_ROOM_svg: DEFAULT_ROOM_svg,
+    ER_TONG_FANG_svg: ER_TONG_FANG_svg,
+    JIAN_SHEN_FANG_svg: JIAN_SHEN_FANG_svg,
+    KE_TING_svg: KE_TING_svg,
+    SHU_FANG_svg: SHU_FANG_svg,
+    WEI_YU_svg: WEI_YU_svg,
+    WO_SHI_svg: WO_SHI_svg,
+    YANG_GUANG_FANG_svg: YANG_GUANG_FAN

@@ -1,0 +1,12 @@
+�� nhẹ nắp chụp Laser",
+    keyword390: "Kiểm tra và vệ sinh bánh xe",
+    keyword391: "Kiểm tra và vệ sinh laser điều hướng",
+    keyword392: "Kiểm tra và đặt robot ở vị trí bằng phẳng để khởi động lại",
+    keyword393: "Gõ nhẹ vào cản trước để kiểm tra độ đàn hồi",
+    keyword394: "Kiểm tra và đặt robot ở vị trí bằng phẳng để khởi động lại",
+    keyword395: "Vệ sinh cảm biến quanh robot bằng giẻ mềm và khô",
+    keyword396: "Kiểm tra và đặt robot ở vị trí bằng phẳng để khởi động lại",
+    keyword397: "Đưa robot ra khỏi khu vực cấm và khởi động lại robot ở vị trí bằng phẳng",
+    keyword398: "Đưa robot ra khỏi thảm và khởi động lại robot ở vị trí bằng phẳng",
+    keyword399: "Pin yếu, robot không thể làm việc",
+    keyword400: "Kiểm tra và vệ sinh k

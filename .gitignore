@@ -1,0 +1,13 @@
+# Output of the fetch scripts: names/values derive from account-bound
+# signed URLs (GalaxyAccessKeyId/Signature) — never publish these.
+fetched_plugin/
+fetched_firmware/
+captcha.png
+
+# Unsquashed rootfs: BusyBox symlink farm Windows git can't index; the
+# rootfs.ubi / rootfs.squashfs blobs next to it are what get published
+# (unsquash locally if you need the tree).
+firmware/firmware_extracted/03_rootfs/rootfs_tree/
+
+__pycache__/
+*.pyc
