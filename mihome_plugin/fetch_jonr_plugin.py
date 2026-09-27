@@ -2,7 +2,7 @@
 """Local research test: fetch the JONR Mi Home plugin (xtl.vacuum.xm2216)
 from the Mi cloud.
 
-Flow reverse-read from the decompiled Mi Home app (see Depot Research
+Flow reverse-read from the decompiled Mi Home app (see this repository's
 README): the app never stores plugin URLs — it mints them per request with
 a signed Mi-cloud call (POST /v2/plugin/fetch_plugin, same RC4/signed-request
 transport as /home/device_list), then plain-GETs the returned signed URL.
@@ -25,7 +25,7 @@ Privacy rules baked in: NO secret value is ever printed (signed-URL queries
 are stripped, candidate dicts are printed with every http value redacted),
 nothing credential-bearing is written to disk. NOTE: the --list dump and the
 downloaded archive name come from a server response that carries an
-account-bound signed URL — keep both out of git (research-depot rule).
+account-bound signed URL — keep both out of git (research-repository rule).
 
 The HA `config` folder is asked at launch (Enter keeps the default, or pass
 --config PATH to skip the prompt). From it the script reads
@@ -84,7 +84,7 @@ def load_connector(integration_dir: Path):
 
     Loaded by file path on purpose: importing it as jonr_vac.cloud would drag
     jonr_vac/__init__.py (and Home Assistant) into a plain-python process.
-    Falls back to the research depot's sibling jonr-vac/ checkout (covers
+    Falls back to the local sibling jonr-vac/ checkout (covers
     --login on a machine without an HA config folder to read).
     """
     candidates = [integration_dir,

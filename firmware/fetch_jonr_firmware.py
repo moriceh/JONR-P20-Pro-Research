@@ -3,7 +3,7 @@
 (MiOT xtl.vacuum.xm2216) from the Mi cloud.
 
 Flow reverse-read from the decompiled Mi Home app (`_m_j/bz7.java` +
-framework/update, see the Depot Research README): the read-only endpoint
+framework/update, see this repository's README): the read-only endpoint
 POST {region}.api.io.mi.com/app/home/latest_version with body
 {"model": "<model>"} returns the current build's signed download URL on
 fk-res-abroad-cdn.home.mi.com — never the write-side /home/devupgrade.
@@ -27,7 +27,7 @@ Use --list to stop at step 3 and save the raw server response instead.
 Privacy rules baked in: NO secret value is ever printed (signed-URL queries
 are stripped, candidate dicts are printed with every http value redacted),
 nothing credential-bearing is written to disk. NOTE: the --list dump carries
-an account-bound signed URL — keep it out of git (research-depot rule).
+an account-bound signed URL — keep it out of git (research-repository rule).
 
 The HA `config` folder is asked at launch (Enter keeps the default, or pass
 --config PATH to skip the prompt). From it the script reads
@@ -86,7 +86,7 @@ def load_connector(integration_dir: Path):
 
     Loaded by file path on purpose: importing it as jonr_vac.cloud would drag
     jonr_vac/__init__.py (and Home Assistant) into a plain-python process.
-    Falls back to the research depot's sibling jonr-vac/ checkout (covers
+    Falls back to the local sibling jonr-vac/ checkout (covers
     --login on a machine without an HA config folder to read).
     """
     candidates = [integration_dir, HERE.parents[1] / "jonr-vac" / "custom_components" / "jonr_vac"]

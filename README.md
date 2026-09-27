@@ -1,4 +1,4 @@
-# JONR P20 Pro — Research Depot
+# JONR P20 Pro — Research Repository
 
 Reverse-engineering material for the **JONR P20 Pro** robot vacuum (MiOT
 `xtl.vacuum.xm2216`): the stock firmware, the vendor's voice packs and the
@@ -21,7 +21,7 @@ The stock OTA/factory image and the tools to take it apart.
 | `fetch_jonr_firmware.py` | Live fetcher for the re-fetch recipe below (reuses the [jonr_vac](https://github.com/moriceh/jonr-vac) cloud session; same rules as `fetch_jonr_plugin.py`) |
 | `firmware_extracted/01_bootloader/` | `u-boot.bin` + its DTB/DTS |
 | `firmware_extracted/02_kernel/` | `vmlinux`, `zImage`, kernel DTB/DTS |
-| `firmware_extracted/03_rootfs/` | `rootfs.ubi` / `rootfs.squashfs` + `rootfs_tree/` (unsquashed filesystem) |
+| `firmware_extracted/03_rootfs/` | `rootfs.ubi` / `rootfs.squashfs` (the unsquashed `rootfs_tree/` is kept locally only — its BusyBox symlink farm does not survive Windows git; run `unsquashfs` on the blob to rebuild it) |
 
 The rootfs is the interesting part: a BusyBox ARMv7 system where the whole
 robot stack lives — `ezros` (supervisor + BehaviorTree.CPP running
